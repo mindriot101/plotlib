@@ -66,6 +66,7 @@ in this case, interpreting the bins and colours to create SVG elements.
 */
 
 extern crate svg;
+extern crate nalgebra;
 
 pub mod representation;
 pub mod view;
