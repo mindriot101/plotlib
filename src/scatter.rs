@@ -176,3 +176,9 @@ impl ContinuousRepresentation for Scatter {
         )
     }
 }
+
+impl From<Scatter> for Box<ContinuousRepresentation> {
+    fn from(value: Scatter) -> Box<ContinuousRepresentation> {
+        Box::new(value)
+    }
+}

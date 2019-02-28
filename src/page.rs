@@ -27,9 +27,12 @@ impl Page {
     /**
     Creates a plot containing a single view
     */
-    pub fn single(view: Box<View>) -> Self {
+    pub fn single<B>(view: B) -> Self
+    where
+        B: Into<Box<View>>,
+    {
         Page {
-            views: vec![view],
+            views: vec![view.into()],
             num_views: 1,
             dimensions: (600, 400),
         }
@@ -42,8 +45,11 @@ impl Page {
     }
 
     /// Add a view to the plot
-    pub fn add_plot(mut self, view: Box<View>) -> Self {
-        self.views.push(view);
+    pub fn add_plot<B>(mut self, view: B) -> Self
+    where
+        B: Into<Box<View>>,
+    {
+        self.views.push(view.into());
         self.num_views += 1;
         self
     }

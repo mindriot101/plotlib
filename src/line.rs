@@ -152,3 +152,9 @@ impl ContinuousRepresentation for Line {
         "".into()
     }
 }
+
+impl From<Line> for Box<ContinuousRepresentation> {
+    fn from(value: Line) -> Box<ContinuousRepresentation> {
+        Box::new(value)
+    }
+}

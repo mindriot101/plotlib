@@ -157,3 +157,9 @@ impl<'a> CategoricalRepresentation for BoxPlot<'a> {
         "".into()
     }
 }
+
+impl<'a> From<BoxPlot<'a>> for Box<CategoricalRepresentation + 'a> {
+    fn from(value: BoxPlot<'a>) -> Box<CategoricalRepresentation + 'a> {
+        Box::new(value)
+    }
+}

@@ -15,14 +15,11 @@ fn main() {
     let s2 = plotlib::scatter::Scatter::from_slice(&[(-1.4, 2.5), (7.2, -0.3)])
         .style(plotlib::scatter::Style::new().marker(plotlib::style::Marker::Square));
     let v = plotlib::view::ContinuousView::new()
-        .add(Box::new(s1))
-        .add(Box::new(s2))
+        .add(s1)
+        .add(s2)
         .x_range(-5., 10.)
         .y_range(-2., 6.)
         .x_label("Some varying variable")
         .y_label("The response of something");
-    println!(
-        "{}",
-        plotlib::page::Page::single(Box::new(v)).to_text().unwrap()
-    );
+    println!("{}", plotlib::page::Page::single(v).to_text().unwrap());
 }

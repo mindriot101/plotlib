@@ -133,3 +133,9 @@ impl CategoricalRepresentation for BarChart {
         "".into()
     }
 }
+
+impl From<BarChart> for Box<CategoricalRepresentation> {
+    fn from(b: BarChart) -> Box<CategoricalRepresentation> {
+        Box::new(b)
+    }
+}

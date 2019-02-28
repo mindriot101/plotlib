@@ -50,8 +50,11 @@ impl ContinuousView {
     /**
     Add a representation to the view
     */
-    pub fn add(mut self, repr: Box<ContinuousRepresentation>) -> Self {
-        self.representations.push(repr);
+    pub fn add<C>(mut self, repr: C) -> Self
+    where
+        C: Into<Box<ContinuousRepresentation>>,
+    {
+        self.representations.push(repr.into());
         self
     }
 
@@ -214,6 +217,12 @@ impl View for ContinuousView {
     }
 }
 
+impl From<ContinuousView> for Box<View> {
+    fn from(value: ContinuousView) -> Box<View> {
+        Box::new(value)
+    }
+}
+
 /// A view with categorical entries along the x-axis and continuous values along the y-axis
 #[derive(Default)]
 pub struct CategoricalView {
@@ -241,8 +250,11 @@ impl CategoricalView {
     /**
     Add a representation to the view
     */
-    pub fn add(mut self, repr: Box<CategoricalRepresentation>) -> Self {
-        self.representations.push(repr);
+    pub fn add<B>(mut self, repr: B) -> Self
+    where
+        B: Into<Box<CategoricalRepresentation>>,
+    {
+        self.representations.push(repr.into());
         self
     }
 
@@ -354,6 +366,12 @@ impl View for CategoricalView {
 
     fn to_text(&self, _face_width: u32, _face_height: u32) -> Result<String> {
         Ok("".into())
+    }
+}
+
+impl From<CategoricalView> for Box<View> {
+    fn from(view: CategoricalView) -> Box<View> {
+        Box::new(view)
     }
 }
 

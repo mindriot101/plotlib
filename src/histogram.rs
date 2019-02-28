@@ -207,6 +207,12 @@ impl ContinuousRepresentation for Histogram {
     }
 }
 
+impl From<Histogram> for Box<ContinuousRepresentation> {
+    fn from(h: Histogram) -> Box<ContinuousRepresentation> {
+        Box::new(h)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

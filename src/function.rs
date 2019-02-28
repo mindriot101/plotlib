@@ -160,3 +160,9 @@ impl ContinuousRepresentation for Function {
         "".into()
     }
 }
+
+impl From<Function> for Box<ContinuousRepresentation> {
+    fn from(f: Function) -> Box<ContinuousRepresentation> {
+        Box::new(f)
+    }
+}

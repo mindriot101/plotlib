@@ -9,11 +9,11 @@ fn main() {
         .label("2")
         .style(plotlib::boxplot::Style::new().fill("darkolivegreen"));
     let v = plotlib::view::CategoricalView::new()
-        .add(Box::new(b1))
-        .add(Box::new(b2))
+        .add(b1)
+        .add(b2)
         .x_label("Experiment")
         .y_label("y");
-    plotlib::page::Page::single(Box::new(v))
+    plotlib::page::Page::single(v)
         .dimensions(400, 300)
         .save("boxplot.svg")
         .expect("saving svg");
