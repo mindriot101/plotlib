@@ -8,10 +8,10 @@ fn main() {
         .label("2")
         .style(plotlib::barchart::Style::new().fill("darkolivegreen"));
     let v = plotlib::view::CategoricalView::new()
-        .add(&b1)
-        .add(&b2)
+        .add(Box::new(b1))
+        .add(Box::new(b2))
         .x_label("Experiment");
-    plotlib::page::Page::single(&v)
+    plotlib::page::Page::single(Box::new(v))
         .save("barchart.svg")
         .expect("saving svg");
 }

@@ -25,19 +25,19 @@ pub trait View {
 
 /// Standard 1-dimensional view with a continuous x-axis
 #[derive(Default)]
-pub struct ContinuousView<'a> {
-    representations: Vec<&'a ContinuousRepresentation>,
+pub struct ContinuousView {
+    representations: Vec<Box<ContinuousRepresentation>>,
     x_range: Option<axis::Range>,
     y_range: Option<axis::Range>,
     x_label: Option<String>,
     y_label: Option<String>,
 }
 
-impl<'a> ContinuousView<'a> {
+impl ContinuousView {
     /**
     Create an empty view
     */
-    pub fn new() -> ContinuousView<'a> {
+    pub fn new() -> ContinuousView {
         ContinuousView {
             representations: vec![],
             x_range: None,
@@ -50,7 +50,7 @@ impl<'a> ContinuousView<'a> {
     /**
     Add a representation to the view
     */
-    pub fn add(mut self, repr: &'a ContinuousRepresentation) -> Self {
+    pub fn add(mut self, repr: Box<ContinuousRepresentation>) -> Self {
         self.representations.push(repr);
         self
     }
@@ -146,7 +146,7 @@ impl<'a> ContinuousView<'a> {
     }
 }
 
-impl<'a> View for ContinuousView<'a> {
+impl View for ContinuousView {
     /**
     Create an SVG rendering of the view
     */
@@ -216,19 +216,19 @@ impl<'a> View for ContinuousView<'a> {
 
 /// A view with categorical entries along the x-axis and continuous values along the y-axis
 #[derive(Default)]
-pub struct CategoricalView<'a> {
-    representations: Vec<&'a CategoricalRepresentation>,
+pub struct CategoricalView {
+    representations: Vec<Box<CategoricalRepresentation>>,
     x_range: Option<Vec<String>>,
     y_range: Option<axis::Range>,
     x_label: Option<String>,
     y_label: Option<String>,
 }
 
-impl<'a> CategoricalView<'a> {
+impl CategoricalView {
     /**
     Create an empty view
     */
-    pub fn new() -> CategoricalView<'a> {
+    pub fn new() -> CategoricalView {
         CategoricalView {
             representations: vec![],
             x_range: None,
@@ -241,7 +241,7 @@ impl<'a> CategoricalView<'a> {
     /**
     Add a representation to the view
     */
-    pub fn add(mut self, repr: &'a CategoricalRepresentation) -> Self {
+    pub fn add(mut self, repr: Box<CategoricalRepresentation>) -> Self {
         self.representations.push(repr);
         self
     }
@@ -334,7 +334,7 @@ impl<'a> CategoricalView<'a> {
     }
 }
 
-impl<'a> View for CategoricalView<'a> {
+impl View for CategoricalView {
     fn to_svg(&self, face_width: f64, face_height: f64) -> Result<svg::node::element::Group> {
         let mut view_group = svg::node::element::Group::new();
 

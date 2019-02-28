@@ -17,17 +17,17 @@ use failure::ResultExt;
 /**
 A single page page laying out the views in a grid
 */
-pub struct Page<'a> {
-    views: Vec<&'a View>,
+pub struct Page {
+    views: Vec<Box<View>>,
     num_views: u32,
     dimensions: (u32, u32),
 }
 
-impl<'a> Page<'a> {
+impl Page {
     /**
     Creates a plot containing a single view
     */
-    pub fn single(view: &'a View) -> Self {
+    pub fn single(view: Box<View>) -> Self {
         Page {
             views: vec![view],
             num_views: 1,
@@ -42,7 +42,7 @@ impl<'a> Page<'a> {
     }
 
     /// Add a view to the plot
-    pub fn add_plot(mut self, view: &'a View) -> Self {
+    pub fn add_plot(mut self, view: Box<View>) -> Self {
         self.views.push(view);
         self.num_views += 1;
         self
@@ -61,7 +61,7 @@ impl<'a> Page<'a> {
         let y_offset = 0.6 * f64::from(y_margin);
 
         // TODO put multiple views in correct places
-        for &view in &self.views {
+        for view in &self.views {
             let view_group = view
                 .to_svg(f64::from(width - x_margin), f64::from(height - y_margin))?
                 .set(
@@ -79,7 +79,7 @@ impl<'a> Page<'a> {
     pub fn to_text(&self) -> Result<String> {
         let (width, height) = self.dimensions;
         // TODO compose multiple views into a plot
-        let view = self.views[0];
+        let view = &self.views[0];
         view.to_text(width, height)
     }
 
