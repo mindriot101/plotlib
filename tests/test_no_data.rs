@@ -20,16 +20,14 @@ fn test_data_with_one_length() {
 
     // The 'view' describes what set of data is drawn
     let v = ContinuousView::new()
-        .add(&s1)
+        .add(s1)
         .x_range(-5., 10.)
         .y_range(-2., 6.)
         .x_label("Some varying variable")
         .y_label("The response of something");
 
     // A page with a single view is then saved to an SVG file
-    Page::single(&v)
-        .save("/tmp/scatter_one_length.svg")
-        .unwrap();
+    Page::single(v).save("/tmp/scatter_one_length.svg").unwrap();
 }
 
 #[test]
@@ -46,14 +44,14 @@ fn test_data_with_no_length() {
 
     // The 'view' describes what set of data is drawn
     let v = ContinuousView::new()
-        .add(&s1)
+        .add(s1)
         .x_range(-5., 10.)
         .y_range(-2., 6.)
         .x_label("Some varying variable")
         .y_label("The response of something");
 
     // A page with a single view is then saved to an SVG file
-    Page::single(&v)
+    Page::single(v)
         .save("/tmp/scatter_zero_length.svg")
         .unwrap();
 }
@@ -73,12 +71,10 @@ fn test_data_with_one_length_and_autoscaling_axes_limits() {
 
     // The 'view' describes what set of data is drawn
     let v = ContinuousView::new()
-        .add(&s1)
+        .add(s1)
         .x_label("Some varying variable")
         .y_label("The response of something");
 
     // // A page with a single view is then saved to an SVG file
-    Page::single(&v)
-        .save("/tmp/scatter_one_length.svg")
-        .unwrap();
+    Page::single(v).save("/tmp/scatter_one_length.svg").unwrap();
 }
