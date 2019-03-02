@@ -1,6 +1,6 @@
 [package]
 name = "plotlib"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Matt Williams <matt@milliams.com>"]
 description = "Pure Rust plotting library"
 readme = "README.md"
@@ -8,11 +8,11 @@ license = "MIT"
 edition = "2018"
 repository = "https://github.com/milliams/plotlib"
 categories = ["visualization", "science"]
-keywords = ["plotting", "plot", "graph", "chart", "histogram", "scatter"]
+keywords = ["plotting", "plot", "graph", "chart", "histogram"]
 
 [badges]
 travis-ci = { repository = "milliams/plotlib" }
 
 [dependencies]
-svg = "0.5.11"
-failure = "0.1.2"
+svg = "0.5.12"
+failure = "0.1.5"

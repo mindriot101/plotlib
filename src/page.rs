@@ -25,15 +25,19 @@ pub struct Page {
 
 impl Page {
     /**
-    Creates a plot containing a single view
+    Creates an empty page container for plots to be added to
     */
     pub fn single<B>(view: B) -> Self
     where
         B: Into<Box<View>>,
     {
+        Page::empty().add_plot(view)
+    }
+
+    pub fn empty() -> Self {
         Page {
-            views: vec![view.into()],
-            num_views: 1,
+            views: Vec::new(),
+            num_views: 0,
             dimensions: (600, 400),
         }
     }

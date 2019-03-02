@@ -14,6 +14,7 @@ use svg::Node;
 
 use crate::axis;
 use crate::errors::Result;
+use crate::grid::{Grid, GridType};
 use crate::representation::{CategoricalRepresentation, ContinuousRepresentation};
 use crate::svg_render;
 use crate::text_render;
@@ -21,6 +22,8 @@ use crate::text_render;
 pub trait View {
     fn to_svg(&self, face_width: f64, face_height: f64) -> Result<svg::node::element::Group>;
     fn to_text(&self, face_width: u32, face_height: u32) -> Result<String>;
+    fn add_grid(&mut self, grid: Grid);
+    fn grid<'a>(&'a self) -> &'a Option<Grid>;
 }
 
 /// Standard 1-dimensional view with a continuous x-axis
@@ -31,6 +34,7 @@ pub struct ContinuousView {
     y_range: Option<axis::Range>,
     x_label: Option<String>,
     y_label: Option<String>,
+    grid: Option<Grid>,
 }
 
 impl ContinuousView {
@@ -44,6 +48,7 @@ impl ContinuousView {
             y_range: None,
             x_label: None,
             y_label: None,
+            grid: None,
         }
     }
 
@@ -158,6 +163,14 @@ impl View for ContinuousView {
 
         let (x_axis, y_axis) = self.create_axes()?;
 
+        if let Some(grid) = &self.grid {
+            view_group.append(svg_render::draw_grid(
+                GridType::Both(grid),
+                face_width,
+                face_height,
+            ));
+        }
+
         // Then, based on those ranges, draw each repr as an SVG
         for repr in &self.representations {
             let repr_group = repr.to_svg(&x_axis, &y_axis, face_width, face_height);
@@ -167,6 +180,7 @@ impl View for ContinuousView {
         // Add in the axes
         view_group.append(svg_render::draw_x_axis(&x_axis, face_width));
         view_group.append(svg_render::draw_y_axis(&y_axis, face_height));
+
         Ok(view_group)
     }
 
@@ -215,6 +229,14 @@ impl View for ContinuousView {
 
         Ok(view_string)
     }
+
+    fn add_grid(&mut self, grid: Grid) {
+        self.grid = Some(grid)
+    }
+
+    fn grid(&self) -> &Option<Grid> {
+        &self.grid
+    }
 }
 
 impl From<ContinuousView> for Box<View> {
@@ -231,6 +253,7 @@ pub struct CategoricalView {
     y_range: Option<axis::Range>,
     x_label: Option<String>,
     y_label: Option<String>,
+    grid: Option<Grid>,
 }
 
 impl CategoricalView {
@@ -244,6 +267,7 @@ impl CategoricalView {
             y_range: None,
             x_label: None,
             y_label: None,
+            grid: None,
         }
     }
 
@@ -352,6 +376,14 @@ impl View for CategoricalView {
 
         let (x_axis, y_axis) = self.create_axes()?;
 
+        if let Some(grid) = &self.grid {
+            view_group.append(svg_render::draw_grid(
+                GridType::HorizontalOnly(grid),
+                face_width,
+                face_height,
+            ));
+        }
+
         // Then, based on those ranges, draw each repr as an SVG
         for repr in &self.representations {
             let repr_group = repr.to_svg(&x_axis, &y_axis, face_width, face_height);
@@ -361,11 +393,20 @@ impl View for CategoricalView {
         // Add in the axes
         view_group.append(svg_render::draw_categorical_x_axis(&x_axis, face_width));
         view_group.append(svg_render::draw_y_axis(&y_axis, face_height));
+
         Ok(view_group)
     }
 
     fn to_text(&self, _face_width: u32, _face_height: u32) -> Result<String> {
         Ok("".into())
+    }
+
+    fn add_grid(&mut self, grid: Grid) {
+        self.grid = Some(grid);
+    }
+
+    fn grid(&self) -> &Option<Grid> {
+        &self.grid
     }
 }
 
